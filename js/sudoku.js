@@ -139,6 +139,18 @@
         };
 
         // public methods
+        
+        that.getRows = function () {
+            return rows;
+        };
+        
+        that.getColumns = function () {
+            return columns;
+        };
+        
+        that.getSize = function () {
+            return size;
+        };
 
         // return the value of the object at the index that
         // corresponds to the row and column parameters
@@ -262,11 +274,33 @@
             
         // print out the value of the cell, with borders, in a different
         // color depending if it is given or not.
+        
+        
     };
     
     // the view of the board itself
     // different background colors for different regions
     // selected cell is in different color
-    SUDOKU.views.board;
+    SUDOKU.views.board = function (sudokuBoard) {
+        var that = {},
+            hidden = {},
+            board = sudokuBoard,
+            size = board.getSize();
+            
+            that.render = function () {
+                var i,
+                    j;
+                    
+                for (i = 0; i < size; i++) {
+                    for (j = 0; j < size; j++) {
+                        $(".boardspace")
+                        .append("<div id="+ i + j + ">" +
+                        board.getValue(i,j)+ "</div>");
+                    }
+                }
+            };
+            
+        return that;
+    };
 
 }());

@@ -5,6 +5,7 @@
         <title>Sudoku Game</title>
     </head>
     <body>
+        <div class="boardspace"></div>
     	<script src="js/underscore.js"></script>
         <script src="js/jquery.js"></script>
         <script src="js/backbone.js"></script>
@@ -37,28 +38,31 @@
     	b.setValue(3,4,2);
     	b.setValue(3,5,3);
     	b.fixGivens();
-    	console.log(b.toString());
-    	console.log("row 0 " + b.getRowState(0));
-    	console.log("row 1 " + b.getRowState(1));
-    	console.log("row 2 " + b.getRowState(2));
-    	console.log("row 3 " + b.getRowState(3));
-    	console.log("row 4 " + b.getRowState(4));
-    	console.log("row 5 " + b.getRowState(5));
+    // 	<!--console.log(b.toString());-->
+    // 	<!--console.log("row 0 " + b.getRowState(0));-->
+    // 	<!--console.log("row 1 " + b.getRowState(1));-->
+    // 	<!--console.log("row 2 " + b.getRowState(2));-->
+    // 	<!--console.log("row 3 " + b.getRowState(3));-->
+    // 	<!--console.log("row 4 " + b.getRowState(4));-->
+    // 	<!--console.log("row 5 " + b.getRowState(5));-->
 
-    	console.log("col 0 " + b.getColumnState(0));
-    	console.log("col 1 " + b.getColumnState(1));
-    	console.log("col 2 " + b.getColumnState(2));
-    	console.log("col 3 " + b.getColumnState(3));
-    	console.log("col 4 " + b.getColumnState(4));
-    	console.log("col 5 " + b.getColumnState(5));
+    // 	<!--console.log("col 0 " + b.getColumnState(0));-->
+    // 	<!--console.log("col 1 " + b.getColumnState(1));-->
+    // 	<!--console.log("col 2 " + b.getColumnState(2));-->
+    // 	<!--console.log("col 3 " + b.getColumnState(3));-->
+    // 	<!--console.log("col 4 " + b.getColumnState(4));-->
+    // 	<!--console.log("col 5 " + b.getColumnState(5));-->
 
 
-    	console.log("reg 0 " + b.getRegionState(0));
-    	console.log("reg 1 " + b.getRegionState(1));
-    	console.log("reg 2 " + b.getRegionState(2));
-    	console.log("reg 3 " + b.getRegionState(3));
-    	console.log("reg 4 " + b.getRegionState(4));
-    	console.log("reg 5 " + b.getRegionState(5));
+    // 	<!--console.log("reg 0 " + b.getRegionState(0));-->
+    // 	<!--console.log("reg 1 " + b.getRegionState(1));-->
+    // 	<!--console.log("reg 2 " + b.getRegionState(2));-->
+    // 	<!--console.log("reg 3 " + b.getRegionState(3));-->
+    // 	<!--console.log("reg 4 " + b.getRegionState(4));-->
+    // 	<!--console.log("reg 5 " + b.getRegionState(5));-->
+    
+    var view = SUDOKU.views.board(b);
+    view.render();
 
     	</script>
 
