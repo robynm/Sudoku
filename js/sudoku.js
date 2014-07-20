@@ -289,14 +289,44 @@
             
             that.render = function () {
                 var i,
-                    j;
+                    j,
+                    val,
+                    flag,
+                    bkgrnd;
                     
                 for (i = 0; i < size; i++) {
+                    flag = !flag;
+                    // flip flag at each change in region
+                    // color changes at end of each region for boards with odd #
+                    // of rows
+                    if (i % board.getRows() === 0 && board.getRows() % 2 !== 0)
+                    {
+                        flag = !flag;
+                    // color changes at end of each row for boards with even #
+                    // of rows
+                    } else if (i % board.getRows() !== 0 &&
+                            board.getRows() % 2 === 0) {
+                                flag = !flag;
+                            }
                     for (j = 0; j < size; j++) {
+                        val = board.getValue(i,j);
+                        if (!val) {
+                            val = "";
+                        }
+                        // change color each time column gets to a new region
+                        if (j % board.getColumns() === 0 ) {
+                            flag = !flag;
+                        }
+                        if (flag) {
+                            bkgrnd = "dark";
+                        } else {
+                            bkgrnd = "light";
+                        }
                         $(".boardspace")
-                        .append("<div id="+ i + j + ">" +
-                        board.getValue(i,j)+ "</div>");
+                        .append("<div class="+ bkgrnd + "> <span>" +
+                        val + "</span></div>");
                     }
+                    $(".boardspace").append("<br>");
                 }
             };
             
