@@ -1,0 +1,32 @@
+body {
+    font-family: sans-serif;
+    color: #5e69ff;
+}
+
+.boardspace {
+    display: inline-block;
+}
+
+.boardspace div {
+    display: inline-block;
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    padding-top: 18px;
+    margin: 1px;
+    
+    /*border: 1px solid black;*/
+}
+
+.boardspace span {
+    display: inline-block;
+   /* vertical-align: middle;*/
+}
+
+.light {
+    background-color: #f0f0f0;
+}
+
+.dark {
+    background-color: #e0e0e0;
+}
