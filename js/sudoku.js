@@ -55,17 +55,13 @@
     // contain blanks or errors.
     SUDOKU.models.board = function (rw, cl, mine) {
         // declare variables
-        var that,
-            my,
+        var that = {}, // for public methods
+            my = mine || {}, // for private methods
             rows,
             columns,
             size,
             grid;
 
-        // for public methods
-        that = {};
-        // for private methods
-        my = mine || {};
         // instance variables
         rows = rw;
         columns = cl;
@@ -150,6 +146,10 @@
         
         that.getSize = function () {
             return size;
+        };
+        
+        that.isGiven = function (r, c) {
+            return grid.isGiven(my.getIndex(r,c));
         };
 
         // return the value of the object at the index that
@@ -267,6 +267,7 @@
     // color (given or user-entered)
     // borders
     // index number (to know when to break line)
+    /*
     SUDOKU.views.cell = function (cellObject, idx){
         var value = cellObject.value, // number in the cell
             constant = cellObject.isGiven, // is cell value a constant?
@@ -276,7 +277,7 @@
         // color depending if it is given or not.
         
         
-    };
+    };*/
     
     // the view of the board itself
     // different background colors for different regions
@@ -285,6 +286,7 @@
         var that = {},
             hidden = {},
             board = sudokuBoard,
+            selected = [0,0],
             size = board.getSize();
             
             that.render = function () {
@@ -292,7 +294,15 @@
                     j,
                     val,
                     flag,
-                    bkgrnd;
+                    bkgrnd,
+                    color,
+                    id;
+                    
+                    // css nth child
+                    // make each cell an input
+                    
+                // clear previous board
+                $(".boardspace").empty();
                     
                 for (i = 0; i < size; i++) {
                     flag = !flag;
@@ -310,6 +320,7 @@
                             }
                     for (j = 0; j < size; j++) {
                         val = board.getValue(i,j);
+                        color = board.isGiven(i,j) ? "black" : "blue";
                         if (!val) {
                             val = "";
                         }
@@ -317,20 +328,30 @@
                         if (j % board.getColumns() === 0 ) {
                             flag = !flag;
                         }
-                        if (flag) {
+                        if (i === selected[0] && j === selected[1]) {
+                            bkgrnd = "selected";
+                        } else if (flag) {
                             bkgrnd = "dark";
                         } else {
                             bkgrnd = "light";
                         }
+                        
+                        id  = "" + i + j;
+                        
                         $(".boardspace")
-                        .append("<div class="+ bkgrnd + "> <span>" +
+                        .append("<div id="+ id + "> <span>" +
                         val + "</span></div>");
+                        $("#"+ id).addClass(bkgrnd).css("color",  color);
                     }
                     $(".boardspace").append("<br>");
                 }
             };
             
+            that.setSelected = function (r, c) {
+                selected[0] = r;
+                selected[1] = c;
+            }
+            
         return that;
     };
-
 }());

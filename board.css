@@ -1,6 +1,7 @@
 body {
     font-family: sans-serif;
     color: #5e69ff;
+    text-align: center;
 }
 
 .boardspace {
@@ -15,6 +16,7 @@ body {
     padding-top: 18px;
     margin: 1px;
     
+    
     /*border: 1px solid black;*/
 }
 
@@ -23,10 +25,19 @@ body {
    /* vertical-align: middle;*/
 }
 
+
 .light {
     background-color: #f0f0f0;
 }
 
 .dark {
     background-color: #e0e0e0;
+}
+
+
+
+
+/* replace with :active*/
+.selected {
+    background-color: #ffff3d;
 }
