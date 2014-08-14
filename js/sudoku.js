@@ -354,9 +354,27 @@
             };
             
             that.setSelected = function (r, c) {
+                if (r < 0) {
+                    r = 0;
+                } else if (r >= size) {
+                    r = size-1;
+                }
+                if (c < 0) {
+                    c = 0;
+                } else if (c >= size) {
+                    c = size-1;
+                }
                 selected[0] = r;
                 selected[1] = c;
-            }
+            };
+            
+            that.getSelectedRow = function () {
+                return selected[0];
+            };
+            
+            that.getSelectedCol = function () {
+                return selected[1];
+            };
             
         return that;
     };

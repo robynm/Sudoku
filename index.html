@@ -74,6 +74,33 @@
 	b.setValue(4,4,2);
 	b.setValue(4,5,3);
 	view.render();
+	
+	$("body").on("keydown", function (e) {
+	    var r = view.getSelectedRow();
+	    var c = view.getSelectedCol();
+	    
+	    switch (e.keyCode) {
+	       case 37: // left
+	            view.setSelected(r, c-1);
+	            view.render();
+	            break;
+	       case 38: // up
+	            view.setSelected(r-1, c);
+	            view.render();
+	            break;
+	       case 39: // right
+                view.setSelected(r, c+1);
+	            view.render();
+	            break;
+	       case 40:
+	            view.setSelected(r+1, c);
+	            view.render();
+	           break;
+	       
+	    }
+	    
+	    
+	})
 
     	</script>
 
