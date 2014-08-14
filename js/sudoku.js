@@ -1,5 +1,14 @@
 (function () {
     "use strict";
+    
+    /*8/13/14 next:
+    * change value in selected cell on key input
+    * add buttons for:
+    * set up game
+    * start playing game
+    * clear?
+    * check answers
+    */
 
     window.SUDOKU = {
         models: {},

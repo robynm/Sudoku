@@ -8,9 +8,10 @@
     <body>
         <h1>Sudoku</h1>
         <div class="boardspace"></div>
-    	<script src="js/underscore.js"></script>
         <script src="js/jquery.js"></script>
-        <script src="js/backbone.js"></script>
+        
+    <!--	<script src="js/underscore.js"></script> -->
+    <!--    <script src="js/backbone.js"></script> -->
         <script src="js/sudoku.js"></script>
     	<script>
 
@@ -34,7 +35,7 @@
     	b.setValue(2,4,1);
     	b.setValue(2,5,2);
 
-    	b.fixGivens();
+    	
     	
     	b.setValue(3,0,4);
     	b.setValue(3,1,5);
@@ -76,9 +77,11 @@
 	view.render();
 	
 	$("body").on("keydown", function (e) {
+	    
 	    var r = view.getSelectedRow();
 	    var c = view.getSelectedCol();
 	    
+	    // change selection with arrow keys
 	    switch (e.keyCode) {
 	       case 37: // left
 	            view.setSelected(r, c-1);
@@ -92,14 +95,17 @@
                 view.setSelected(r, c+1);
 	            view.render();
 	            break;
-	       case 40:
+	       case 40: // down
 	            view.setSelected(r+1, c);
 	            view.render();
 	           break;
-	       
 	    }
 	    
-	    
+	   // change value with number keys
+	   if (e.keyCode >= 48 && e.keyCode <= 57) {
+	       b.setValue(r, c, parseInt(e.key));
+	       view.render();
+	   }
 	})
 
     	</script>
