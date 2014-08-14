@@ -341,7 +341,13 @@
                         $(".boardspace")
                         .append("<div id="+ id + "> <span>" +
                         val + "</span></div>");
-                        $("#"+ id).addClass(bkgrnd).css("color",  color);
+                        $("#"+ id).addClass(bkgrnd).css("color",  color)
+                        .on("click", function (e){
+                            var row = parseInt(e.currentTarget.id[0]);
+	                        var col = parseInt(e.currentTarget.id[1]);
+	                        that.setSelected(row, col);
+                            that.render();
+                        });
                     }
                     $(".boardspace").append("<br>");
                 }
