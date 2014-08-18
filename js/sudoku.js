@@ -1,13 +1,19 @@
 (function () {
     "use strict";
     
-    /*8/13/14 next:
-    * change value in selected cell on key input
-    * add buttons for:
-    * set up game
-    * start playing game
-    * clear?
-    * check answers
+    /*8/17/14 next:
+    * need a place to setup board size
+    * setup mode:
+    *   buttons:
+            start over
+            begin play mode
+    * play mode:
+        buttons:
+            setup a new game
+            check answers
+    *
+    * alert on error
+    * figure out tab navigation
     */
 
     window.SUDOKU = {

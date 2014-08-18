@@ -4,6 +4,19 @@ body {
     text-align: center;
 }
 
+.mode {
+    display: inline-block;
+    border: 3px solid #ff6b6b;
+    border-radius: 10px;
+    padding: 0 30px 30px 30px;
+}
+
+.mode h2 {
+    color: #ff6b6b;
+    font-size: medium;
+    text-align: left;
+}
+
 .boardspace {
     display: inline-block;
 }
@@ -25,6 +38,15 @@ body {
    /* vertical-align: middle;*/
 }
 
+.button {
+    margin: 20px 5px;
+    display: inline-block;
+    background-color: #e0e0e0;
+    width: 150px;
+    padding: 10px;
+    /*border: 1px solid #5e69ff;*/
+    border-radius: 5px;
+}
 
 .light {
     background-color: #f0f0f0;

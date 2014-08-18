@@ -7,7 +7,15 @@
     </head>
     <body>
         <h1>Sudoku</h1>
-        <div class="boardspace"></div>
+        <div class="mode"><h2>Setup Mode</h2>
+            <div class="boardspace"></div>
+        </div>
+        
+        <br>
+        <div class="button">Start Over</div>
+        <div class="button">Begin Playing</div>
+        <div class="button">Setup a New Game</div>
+        <div class="button">Check Answers</div>
         <script src="js/jquery.js"></script>
         
     <!--	<script src="js/underscore.js"></script> -->
@@ -101,9 +109,16 @@
 	           break;
 	    }
 	    
+	   // delete is 46
+	   // tab is 9
+	    
 	   // change value with number keys
 	   if (e.keyCode >= 48 && e.keyCode <= 57) {
-	       b.setValue(r, c, parseInt(e.key));
+	       b.setValue(r, c, parseInt(e.keyCode)-48);
+	       view.render();
+	   } else if ( e.keyCode >= 96 && e.keyCode <= 105) {
+	          
+	       b.setValue(r, c, parseInt(e.keyCode)-(48 * 2));
 	       view.render();
 	   }
 	})
