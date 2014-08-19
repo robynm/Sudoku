@@ -7,82 +7,57 @@
     </head>
     <body>
         <h1>Sudoku</h1>
-        <div class="mode"><h2>Setup Mode</h2>
-            <div class="boardspace"></div>
+        <div class="mode"><h2>Setup Mode</h2><h3>specify board size</h3>
+            <div class="boardspace">
+                <form>
+                    Rows: <input type="text" name="rows"><br>
+                    Columns: <input type="text" name="columns"><br>
+                </form>
+            </div>
         </div>
         
         <br>
-        <div class="button">Start Over</div>
-        <div class="button">Begin Playing</div>
-        <div class="button">Setup a New Game</div>
-        <div class="button">Check Answers</div>
+        <div class="button">Enter Values</div>
+
         <script src="js/jquery.js"></script>
         
     <!--	<script src="js/underscore.js"></script> -->
     <!--    <script src="js/backbone.js"></script> -->
         <script src="js/sudoku.js"></script>
     	<script>
-
-    	var b = SUDOKU.models.board(2,3);
-    	b.setValue(0,0,1);
-    	b.setValue(0,1,2);
-    	b.setValue(0,2,3);
-    	b.setValue(0,3,4);
-    	b.setValue(0,4,5);
-    	b.setValue(0,5,6);
-    	b.setValue(1,0,2);
-    	b.setValue(1,1,3);
-    	b.setValue(1,2,4);
-    	b.setValue(1,3,5);
-    	b.setValue(1,4,6);
-    	b.setValue(1,5,1);
-    	b.setValue(2,0,3);
-    	b.setValue(2,1,4);
-    	b.setValue(2,2,5);
-    	b.setValue(2,3,6);
-    	b.setValue(2,4,1);
-    	b.setValue(2,5,2);
-
-    	
-    	
-    	b.setValue(3,0,4);
-    	b.setValue(3,1,5);
-    	b.setValue(3,2,6);
-    	b.setValue(3,3,1);
-    	b.setValue(3,4,2);
-    	b.setValue(3,5,3);
-    // 	<!--console.log(b.toString());-->
-    // 	<!--console.log("row 0 " + b.getRowState(0));-->
-    // 	<!--console.log("row 1 " + b.getRowState(1));-->
-    // 	<!--console.log("row 2 " + b.getRowState(2));-->
-    // 	<!--console.log("row 3 " + b.getRowState(3));-->
-    // 	<!--console.log("row 4 " + b.getRowState(4));-->
-    // 	<!--console.log("row 5 " + b.getRowState(5));-->
-
-    // 	<!--console.log("col 0 " + b.getColumnState(0));-->
-    // 	<!--console.log("col 1 " + b.getColumnState(1));-->
-    // 	<!--console.log("col 2 " + b.getColumnState(2));-->
-    // 	<!--console.log("col 3 " + b.getColumnState(3));-->
-    // 	<!--console.log("col 4 " + b.getColumnState(4));-->
-    // 	<!--console.log("col 5 " + b.getColumnState(5));-->
-
-
-    // 	<!--console.log("reg 0 " + b.getRegionState(0));-->
-    // 	<!--console.log("reg 1 " + b.getRegionState(1));-->
-    // 	<!--console.log("reg 2 " + b.getRegionState(2));-->
-    // 	<!--console.log("reg 3 " + b.getRegionState(3));-->
-    // 	<!--console.log("reg 4 " + b.getRegionState(4));-->
-    // 	<!--console.log("reg 5 " + b.getRegionState(5));-->
-    
-    var view = SUDOKU.views.board(b);
-    view.render();
-    b.setValue(4,0,4);
-	b.setValue(4,1,5);
-	b.setValue(4,2,6);
-	b.setValue(4,3,1);
-	b.setValue(4,4,2);
-	b.setValue(4,5,3);
-	view.render();
+    	var b,
+    	    v;
+    $(".button").on("click", function(e) {
+        
+        if (e.target.innerHTML === "Enter Values"){
+            
+            // create a new board and view
+            b = SUDOKU.models.board(2,3);
+            view = SUDOKU.views.board(b);
+            view.render();
+            
+            // change button text to "Begin Playing"
+            $(".button").html("Begin Playing");
+            
+            // change subtitle to "enter given values"
+            $(".mode h3").html("enter given values");
+            
+        } else if (e.target.innerHTML === "Begin Playing") {
+            
+            b.fixGivens();
+            
+            // change button text to "Check Answers"
+            $(".button").html("Check Answers");
+            
+            $(".mode").css("border", "none");
+            $(".mode h2").empty();
+            $(".mode h3").empty();
+            view.render()
+            
+        } else if (e.target.innerHTML === "Check Answers") {
+            
+        }
+    })
 	
 	$("body").on("keydown", function (e) {
 	    

@@ -17,6 +17,11 @@ body {
     text-align: left;
 }
 
+.mode h3 {
+    color: #ff6b6b;
+    font-size: medium;
+}
+
 .boardspace {
     display: inline-block;
 }
