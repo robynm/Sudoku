@@ -4,6 +4,15 @@ body {
     text-align: center;
 }
 
+select {
+    
+    margin: 20px;
+}
+
+form {
+    text-align: right;
+}
+
 .mode {
     display: inline-block;
     border: 3px solid #ff6b6b;

@@ -7,11 +7,22 @@
     </head>
     <body>
         <h1>Sudoku</h1>
-        <div class="mode"><h2>Setup Mode</h2><h3>specify board size</h3>
+        <div class="mode"><h2>Setup Mode</h2>
+        <h3>how many rows and columns in one square of the board?</h3>
             <div class="boardspace">
                 <form>
-                    Rows: <input type="text" name="rows"><br>
-                    Columns: <input type="text" name="columns"><br>
+                    <span class="label">Rows:</span>
+                    <select class="row">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <br>
+                    <span class="label">Columns:</span>
+                    <select class="column">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <br>
                 </form>
             </div>
         </div>
@@ -31,8 +42,11 @@
         
         if (e.target.innerHTML === "Enter Values"){
             
+            var r = parseInt($("select.row").val());
+            var c = parseInt($("select.column").val());
+            
             // create a new board and view
-            b = SUDOKU.models.board(2,3);
+            b = SUDOKU.models.board(r,c);
             view = SUDOKU.views.board(b);
             view.render();
             

@@ -1,17 +1,8 @@
 (function () {
     "use strict";
     
-    /*8/17/14 next:
-    * need a place to setup board size
-    * setup mode:
-    *   buttons:
-            start over
-            begin play mode
-    * play mode:
-        buttons:
-            setup a new game
-            check answers
-    *
+    /*
+    * check answers
     * alert on error
     * figure out tab navigation
     */
