@@ -1,6 +1,6 @@
 Sudoku
 ======
 
-Code is in js/sudoku.js
+A simple Sudoku-playing application.  Allows you to set up your own board and specify given values, and then to enter numbers and check your answers.  
 
-Use index.html for testing.
+References a jquery.js file in the js directory (not included).
