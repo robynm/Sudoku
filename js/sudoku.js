@@ -1,12 +1,5 @@
 (function () {
     "use strict";
-    
-    /*
-    * check answers
-    * alert on error
-    * make everything a form to make more semantic and work with tabs etc
-    * get js out of the dom
-    */
 
     window.SUDOKU = {
         models: {},
@@ -269,23 +262,6 @@
         return that;
     };
     
-    // the view of a single cell of the board
-    // number (value)
-    // color (given or user-entered)
-    // borders
-    // index number (to know when to break line)
-    /*
-    SUDOKU.views.cell = function (cellObject, idx){
-        var value = cellObject.value, // number in the cell
-            constant = cellObject.isGiven, // is cell value a constant?
-            location = idx; // location (index in grid) of cell
-            
-        // print out the value of the cell, with borders, in a different
-        // color depending if it is given or not.
-        
-        
-    };*/
-    
     // the view of the board itself
     // different background colors for different regions
     // selected cell is in different color
@@ -304,9 +280,6 @@
                     bkgrnd,
                     color,
                     id;
-                    
-                    // css nth child
-                    // make each cell an input
                     
                 // clear previous board
                 $(".boardspace").empty();
