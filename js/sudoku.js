@@ -2,6 +2,7 @@
     "use strict";
 
     window.SUDOKU = {
+        controllers: {},
         models: {},
         views: {}
     };
@@ -12,13 +13,10 @@
     SUDOKU.models.grid = function (num) {
 
         // declare variables
-        var that,
+        var gridArray,
+            i,
             length,
-            gridArray,
-            i;
-
-        // object to hold public methods
-        that = {};
+            that = {}; // object to hold public methods
 
         // instance variables
         length = num * num;
@@ -55,12 +53,13 @@
     // contain blanks or errors.
     SUDOKU.models.board = function (rw, cl, mine) {
         // declare variables
-        var that = {}, // for public methods
+        var columns,
+            grid,
             my = mine || {}, // for private methods
             rows,
-            columns,
             size,
-            grid;
+            that = {}; // for public methods
+            
 
         // instance variables
         rows = rw;
@@ -86,10 +85,11 @@
         // return an array with the indices of those coordinates
         // in the grid collection
         my.getIndices = function (startR, endR, startC, endC) {
-            var section = [],
+            var c,
                 i = 0,
                 r,
-                c;
+                section = [];
+                
             while (i < size) {
                 for (r = startR; r <= endR; r++) {
                     for (c = startC; c <= endC; c++) {
@@ -221,11 +221,11 @@
         // get the state of a given region n (valid values 0 => size-1)
 
         that.getRegionState = function (n) {
-            var startRow,
+            var endCol,
                 endRow,
+                region,
                 startCol,
-                endCol,
-                region;
+                startRow;
 
             // catch error -- n is out of range
             if (n < 0 || n >= size) {
@@ -266,21 +266,20 @@
     // different background colors for different regions
     // selected cell is in different color
     SUDOKU.views.board = function (sudokuBoard) {
-        var that = {},
-            hidden = {},
-            board = sudokuBoard,
+        var board = sudokuBoard,
             selected = [0,0],
-            size = board.getSize();
+            size = board.getSize(),
+            that = {};
             
             that.render = function () {
-                var i,
-                    j,
-                    val,
-                    flag,
-                    bkgrnd,
+                var bkgrnd,
                     color,
-                    id;
-                    
+                    flag,
+                    i,
+                    id,
+                    j,
+                    val;
+                
                 // clear previous board
                 $(".boardspace").empty();
                 
@@ -323,12 +322,7 @@
                         .append("<div id="+ id + "> <span>" +
                         val + "</span></div>");
                         $("#"+ id).addClass(bkgrnd).css("color",  color)
-                        .on("click", function (e){
-                            var row = parseInt(e.currentTarget.id[0]);
-	                        var col = parseInt(e.currentTarget.id[1]);
-	                        that.setSelected(row, col);
-                            that.render();
-                        });
+                        .on("click", SUDOKU.controllers.cellHandler);
                     }
                     $(".boardspace").append("<br>");
                 }
@@ -359,4 +353,130 @@
             
         return that;
     };
+    
+    // An event handler to change the selected cell to target cell on
+    // mouse click
+    SUDOKU.controllers.cellHandler = function (e) {
+        var col,
+            row;
+        
+        row = parseInt(e.currentTarget.id[0]);
+        col = parseInt(e.currentTarget.id[1]);
+        view.setSelected(row, col);
+        view.render();
+    };
+    
+    // Updates the Sudoku view based on keyboard events
+    SUDOKU.controllers.keyHandler = function (e) {
+        var c,
+            r;
+            
+        r = view.getSelectedRow();
+	    c = view.getSelectedCol();
+	    
+	    // change selection with arrow keys
+	    switch (e.keyCode) {
+	       case 37: // left
+	            view.setSelected(r, c-1);
+	            view.render();
+	            break;
+	       case 38: // up
+	            view.setSelected(r-1, c);
+	            view.render();
+	            break;
+	       case 39: // right
+                view.setSelected(r, c+1);
+	            view.render();
+	            break;
+	       case 40: // down
+	            view.setSelected(r+1, c);
+	            view.render();
+	           break;
+	    }
+	    
+	   // change value with number keys
+	   if (e.keyCode >= 48 && e.keyCode <= 57) {
+	       b.setValue(r, c, parseInt(e.keyCode)-48);
+	       view.render();
+	   } else if ( e.keyCode >= 96 && e.keyCode <= 105) {
+	          
+	       b.setValue(r, c, parseInt(e.keyCode)-(48 * 2));
+	       view.render();
+	   }
+    };
+    
+    SUDOKU.controllers.buttonHandler = function (e) {
+        if (e.target.innerHTML === "Enter Values"){
+            
+            var r = parseInt($("select.row").val());
+            var c = parseInt($("select.column").val());
+            
+            // create new global variables for board and view
+            window.b = SUDOKU.models.board(r,c);
+            window.view = SUDOKU.views.board(b);
+            view.render();
+            
+            // change button text to "Begin Playing"
+            $(".button").html("Begin Playing");
+            
+            // change subtitle to "enter given values"
+            $(".mode h3").html("enter given values");
+            
+        } else if (e.target.innerHTML === "Begin Playing") {
+            
+            b.fixGivens();
+            
+            // change button text to "Check Answers"
+            $(".button").html("Check Answers");
+            
+            $(".mode").css("border", "none");
+            $(".mode h2").empty();
+            $(".mode h3").empty();
+            view.render();
+            
+        } else if (e.target.innerHTML === "Check Answers") {
+            var size = b.getSize();
+            
+            $(".answers").empty();
+            
+            var getColor = function (state) {
+                var color = "#5e69ff";
+                switch (state) {
+                    case "complete":
+                        color = "#40c752"; // green
+                        break;
+                    case "incomplete":
+                        color = "#d1d111"; // yellow
+                        break;
+                    case "error":
+                        color = "#ff6b6b"; // red
+                        break;
+                }
+                return color;
+            };
+            
+            for (var i = 0; i < size; i++) {
+                
+                var rState = b.getRowState(i);
+                var cState = b.getColumnState(i);
+                var regState = b.getRegionState(i);
+                var rColor = getColor(rState);
+                var cColor = getColor(cState);
+                var regColor = getColor(regState);
+                
+                $(".answers").append("<div> Row " + (i+1) + " status: " + rState
+                + "</div>");
+                $(".answers div").last().css("color", rColor);
+                
+                $(".answers").append("<div> Column " + (i+1) + " status: " +
+                cState + "</div>");
+                $(".answers div").last().css("color", cColor);
+                
+                $(".answers").append("<div> Region " + (i+1) + " status: " +
+                regState + "</div>");
+                $(".answers div").last().css("color", regColor);
+            }
+        }
+    };
+    
 }());
