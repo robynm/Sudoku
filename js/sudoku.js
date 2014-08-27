@@ -4,7 +4,8 @@
     /*
     * check answers
     * alert on error
-    * figure out tab navigation
+    * make everything a form to make more semantic and work with tabs etc
+    * get js out of the dom
     */
 
     window.SUDOKU = {
@@ -309,6 +310,7 @@
                     
                 // clear previous board
                 $(".boardspace").empty();
+                
                     
                 for (i = 0; i < size; i++) {
                     flag = !flag;

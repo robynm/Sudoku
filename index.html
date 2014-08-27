@@ -24,11 +24,12 @@
                     </select>
                     <br>
                 </form>
-            </div>
-        </div>
+            </div> <!-- .boardspace -->
+        </div> <!-- .mode-->
         
         <br>
-        <div class="button">Enter Values</div>
+        <div class="button" tabindex="0" role="button">Enter Values</div>
+        <div class="answers"></div>
 
         <script src="js/jquery.js"></script>
         
@@ -69,7 +70,47 @@
             view.render()
             
         } else if (e.target.innerHTML === "Check Answers") {
+            var size = b.getSize();
             
+            $(".answers").empty();
+            
+            var getColor = function (state) {
+                var color = "#5e69ff";
+                switch (state) {
+                    case "complete":
+                        color = "#40c752"; // green
+                        break;
+                    case "incomplete":
+                        color = "#d1d111"; // yellow
+                        break;
+                    case "error":
+                        color = "#ff6b6b"; // red
+                        break;
+                }
+                return color;
+            }
+            
+            for (var i = 0; i < size; i++) {
+                
+                var rState = b.getRowState(i);
+                var cState = b.getColumnState(i);
+                var regState = b.getRegionState(i);
+                var rColor = getColor(rState);
+                var cColor = getColor(cState);
+                var regColor = getColor(regState);
+                
+                $(".answers").append("<div> Row " + (i+1) + " status: " + rState
+                + "</div>")
+                $(".answers div").last().css("color", rColor);
+                
+                $(".answers").append("<div> Column " + (i+1) + " status: " +
+                cState + "</div>")
+                $(".answers div").last().css("color", cColor);
+                
+                $(".answers").append("<div> Region " + (i+1) + " status: " +
+                regState + "</div>")
+                $(".answers div").last().css("color", regColor);
+            }
         }
     })
 	
