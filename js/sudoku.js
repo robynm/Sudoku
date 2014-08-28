@@ -376,11 +376,11 @@
 		
 		// change selection with arrow keys
 		switch (e.keyCode) {
-            case 8:
-                board.setValue(r, c, 0);
-                break;
-            case 32:
+            case 8: // backspace
+            case 32: // space
+            case 46: // delete
 			   board.setValue(r, c, 0);
+			   view.render();
 			   break;
 	        case 37: // left
 				view.setSelected(r, c-1);
