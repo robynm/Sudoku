@@ -39,7 +39,13 @@
 	
 	        // add keyboard event listener
 	        $("body").on("keydown", SUDOKU.controllers.keyHandler);
-
+	        
+	        // add handler on page unload
+	        window.addEventListener("beforeunload", function (e) {
+	            var msg = "Game will be lost";
+	            (e || window.event).returnValue = msg;
+	            return msg;
+	        });
     	</script>
 
     </body>
