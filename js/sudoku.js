@@ -371,6 +371,8 @@
         var c,
             r;
             
+        console.log(e);
+            
         r = view.getSelectedRow();
 	    c = view.getSelectedCol();
 	    
@@ -396,24 +398,63 @@
 	    
 	   // change value with number keys
 	   if (e.keyCode >= 48 && e.keyCode <= 57) {
-	       b.setValue(r, c, parseInt(e.keyCode)-48);
+	       board.setValue(r, c, parseInt(e.keyCode)-48);
 	       view.render();
 	   } else if ( e.keyCode >= 96 && e.keyCode <= 105) {
 	          
-	       b.setValue(r, c, parseInt(e.keyCode)-(48 * 2));
+	       board.setValue(r, c, parseInt(e.keyCode)-(48 * 2));
 	       view.render();
 	   }
     };
+
     
     SUDOKU.controllers.buttonHandler = function (e) {
+        
+        // private methods
+        
+        var getColor = function (state) {
+            var color = "#5e69ff";
+            switch (state) {
+                case "complete":
+                    color = "#40c752"; // green
+                    break;
+                case "incomplete":
+                    color = "#d1d111"; // yellow
+                    break;
+                case "error":
+                    color = "#ff6b6b"; // red
+                    break;
+            }
+            return color;
+        };
+        
+        var hasErrors = function (b) {
+            var size = b.getSize();
+            var errors = false;
+            var row,
+                col,
+                reg;
+            
+            for (var i = 0; i < size; i++) {
+                row = b.getRowState(i);
+                col = b.getColumnState(i);
+                reg = b.getRegionState(i);
+                if (row === "error" || col === "error" || reg === "error") {
+                    errors = true;
+                }
+            }
+            
+            return errors;
+        };
+    
         if (e.target.innerHTML === "Enter Values"){
             
             var r = parseInt($("select.row").val());
             var c = parseInt($("select.column").val());
             
             // create new global variables for board and view
-            window.b = SUDOKU.models.board(r,c);
-            window.view = SUDOKU.views.board(b);
+            window.board = SUDOKU.models.board(r,c);
+            window.view = SUDOKU.views.board(board);
             view.render();
             
             // change button text to "Begin Playing"
@@ -423,43 +464,32 @@
             $(".mode h3").html("enter given values");
             
         } else if (e.target.innerHTML === "Begin Playing") {
+            // check for errors in givens
+            if (hasErrors(board)) {
+                $(".boardspace h3").empty();
+                $(".boardspace").append("<h3>fix errors before proceeding</h3>")
+            } else {
+                board.fixGivens();
             
-            b.fixGivens();
+                // change button text to "Check Answers"
+                $(".button").html("Check Answers");
             
-            // change button text to "Check Answers"
-            $(".button").html("Check Answers");
-            
-            $(".mode").css("border", "none");
-            $(".mode h2").empty();
-            $(".mode h3").empty();
-            view.render();
+                $(".mode").css("border", "none");
+                $(".mode h2").empty();
+                $(".mode h3").empty();
+                view.render();
+            }
             
         } else if (e.target.innerHTML === "Check Answers") {
-            var size = b.getSize();
+            var size = board.getSize();
             
             $(".answers").empty();
             
-            var getColor = function (state) {
-                var color = "#5e69ff";
-                switch (state) {
-                    case "complete":
-                        color = "#40c752"; // green
-                        break;
-                    case "incomplete":
-                        color = "#d1d111"; // yellow
-                        break;
-                    case "error":
-                        color = "#ff6b6b"; // red
-                        break;
-                }
-                return color;
-            };
-            
             for (var i = 0; i < size; i++) {
                 
-                var rState = b.getRowState(i);
-                var cState = b.getColumnState(i);
-                var regState = b.getRegionState(i);
+                var rState = board.getRowState(i);
+                var cState = board.getColumnState(i);
+                var regState = board.getRegionState(i);
                 var rColor = getColor(rState);
                 var cColor = getColor(cState);
                 var regColor = getColor(regState);
