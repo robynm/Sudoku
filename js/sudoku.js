@@ -470,17 +470,18 @@
 		} else if (e.target.innerHTML === "Begin Playing") {
 			// check for errors in givens
 			if (hasErrors(board)) {
-				$(".boardspace h3").empty();
-				$(".boardspace").append("<h3>fix errors before proceeding</h3>")
+				$(".mode h4").remove();
+				$(".mode").append("<h4>fix errors before proceeding</h4>")
 			} else {
+			    $(".mode h4").remove();
 				board.fixGivens();
 			
 				// change button text to "Check Answers"
 				$(".button").html("Check Answers");
 			
 				$(".mode").css("border", "none");
-				$(".mode h2").empty();
-				$(".mode h3").empty();
+				$(".mode h2").remove();
+				$(".mode h3").remove();
 				view.render();
 			}
 			
